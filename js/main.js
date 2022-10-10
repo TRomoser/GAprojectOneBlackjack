@@ -9,9 +9,9 @@ let playerCount;
 let dealerCount;
 let playerAce;
 let dealerAce;
-let bet;
+let wager;
 let chipCount = 1000;
-let shuffledDeck;
+let shuffledDeck = [];
 let winner;
 
 /*----- cached element references -----*/
@@ -25,7 +25,13 @@ let winner;
 const dealerArea = document.getElementById('dealerArea');
 const playerArea = document.getElementById('playerArea');
 const message = document.getElementById('results');
-const controlBtns = document.getElementsByClassName('controls');
+// const controlBtns = document.getElementsByClassName('controls');
+const bet10 = document.getElementById('bet10');
+const bet50 = document.getElementById('bet50');
+const bet100 = document.getElementById('bet100');
+const hitBtn = document.getElementById('hit');
+const standBtn = document.getElementById('stand');
+const doubleBtn = document.getElementById('double');
 const playAgainBtn = document.getElementById('playAgain');
 const bankroll = document.getElementById('bankroll');
 const wagerField = document.getElementById('wagerField');
@@ -34,15 +40,20 @@ const wagerField = document.getElementById('wagerField');
 // for control buttons
 // for playAgain button
 
-for (i of controlBtns) {
-  i.addEventListener('click', function() { //change to playGame
-    console.log(this.id.replace(/\D/g,''));
-    console.log(this.id.replace(/\d+/g, ''));
-  });
-}
+// for (i of controlBtns) {
+//   i.addEventListener('click', function() { //change to playGame
+//     console.log(this.id.replace(/\D/g,''));
+//     console.log(this.id.replace(/\d+/g, ''));
+//   });
+// }
 
 playAgainBtn.addEventListener('click', init);
-
+bet10.addEventListener('click', bet);
+bet50.addEventListener('click', bet);
+bet100.addEventListener('click', bet);
+hitBtn.addEventListener('click', hit);
+standBtn.addEventListener('click', stand);
+doubleBtn.addEventListener('click', double);
 
 /*----- functions -----*/
 init();
@@ -54,6 +65,7 @@ function init() {
     dealerAce = 0;
     wager = 0;
     winner = 0;
+    buildOriginalDeck();
     render();
 }
 
@@ -107,13 +119,36 @@ function renderTable() {
 function renderMessage() {
 // render win/lose/bust message
 // render turn message
-    bankroll.innerHTML = `${chipCount}` - bet;
-    wagerField.innerHTML - `${bet}`;
+    bankroll.innerHTML = `${chipCount}` - wager;
+    wagerField.innerHTML = `${wager}`;
 }
 
 // To remove words from control buttons id, use .replace(/\D/g,'')
 // To remove numbers from control buttons id, use .replace(/\d+/g, '')
 function playGame(evt) {
+
+}
+function bet() {
+
+}
+
+function hit() {
+    let cardImg = document.createElement('img');
+    let card = shuffledDeck.pop();
+    if (card.value === 11) {
+        playerCount += card.value
+        playerAce += 1
+    } else {
+        playerCount += card.value
+    }
+//  append card image to div
+}
+
+function stand() {
+
+}
+
+function double() {
 
 }
 
@@ -136,6 +171,7 @@ function dealerTurn() {
 // hit until dealerCount <= 17
 // getWinner
 }
+
 
 function getWinner() {
 // playerCount < dealerCount winner = -1
