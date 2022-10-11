@@ -26,15 +26,13 @@ const dealerArea = document.getElementById('dealerArea');
 const playerArea = document.getElementById('playerArea');
 const message = document.getElementById('results');
 // const controlBtns = document.getElementsByClassName('controls');
-const bet10 = document.getElementById('bet10');
-const bet50 = document.getElementById('bet50');
-const bet100 = document.getElementById('bet100');
+const betBtn = document.getElementByClass('wager');
 const hitBtn = document.getElementById('hit');
 const standBtn = document.getElementById('stand');
 const doubleBtn = document.getElementById('double');
 const playAgainBtn = document.getElementById('playAgain');
-const bankroll = document.getElementById('bankroll');
-const wagerField = document.getElementById('wagerField');
+const bankrollEl = document.getElementById('bankroll');
+const wagerEl = document.getElementById('wagerField');
 
 /*----- event listeners -----*/
 // for control buttons
@@ -48,9 +46,7 @@ const wagerField = document.getElementById('wagerField');
 // }
 
 playAgainBtn.addEventListener('click', init);
-bet10.addEventListener('click', bet);
-bet50.addEventListener('click', bet);
-bet100.addEventListener('click', bet);
+betBtn.addEventListener('click', bet);
 hitBtn.addEventListener('click', hit);
 standBtn.addEventListener('click', stand);
 doubleBtn.addEventListener('click', double);
@@ -67,6 +63,85 @@ function init() {
     winner = 0;
     buildOriginalDeck();
     render();
+}
+function bet(evt) {
+    const btn = evt.target;
+    const betAmt = btn.innerText.replace(/\D/g,'');
+    wager += betAmt;
+    bankroll -= betAmt;
+    render();
+}
+
+function hit() {
+    let cardImg = document.createElement('img');
+    let card = shuffledDeck.pop();
+    if (card.value === 11) {
+        playerCount += card.value
+        playerAce += 1
+    } else {
+        playerCount += card.value
+    }
+//  append card image to div
+render();
+}
+
+function stand() {
+
+}
+
+function double() {
+
+}
+
+function computeCount(hand) {
+
+}
+
+function playerTurn() {
+    bet();
+
+    // add to wager in wagerField with button.addEventListener
+    // deal cards into card divs
+    // add cardValue to playerCount, playerAce, dealerCount, dealerAce
+    // winner = -1 if dealerCount += dealerAce = 21
+    // accept input from buttons Hit/Stand/Double
+    // winner = 1 if playerCount += playerAce = 21
+    // if playerCount += playerAce(true) > 21, playerCount - 10
+    // winner = -1 if playerCount > 21
+    // stand 
+    }
+    // make one function
+    function dealerTurn() {
+    // if dealerCount += dealerAce = 17, getWinner
+    // else hit until dealerCount += dealerAce <= 17
+    // if dealerCount += dealerAce(true) > 21, dealerCount - 10
+    // hit until dealerCount <= 17
+    // getWinner
+    }
+
+function render() {
+    renderTable();
+    renderMessage();
+    renderNewShuffledDeck();
+}
+
+function renderTable() {
+// render card divs
+// render wagerField
+    
+}
+
+function renderMessage() {
+// render win/lose/bust message
+// render turn message
+    bankrollEl.innerHTML = `${chipCount}`;
+    wagerEl.innerHTML = `${wager}`;
+}
+
+// To remove words from control buttons id, use .replace(/\D/g,'')
+// To remove numbers from control buttons id, use .replace(/\d+/g, '')
+function playGame() {
+
 }
 
 function getNewShuffledDeck() {
@@ -104,73 +179,6 @@ suits.forEach(function(suit) {
 return deck;
 }
 
-function render() {
-    renderTable();
-    renderMessage();
-    renderNewShuffledDeck();
-}
-
-function renderTable() {
-// render card divs
-// render wagerField
-    
-}
-
-function renderMessage() {
-// render win/lose/bust message
-// render turn message
-    bankroll.innerHTML = `${chipCount}` - wager;
-    wagerField.innerHTML = `${wager}`;
-}
-
-// To remove words from control buttons id, use .replace(/\D/g,'')
-// To remove numbers from control buttons id, use .replace(/\d+/g, '')
-function playGame(evt) {
-
-}
-function bet() {
-
-}
-
-function hit() {
-    let cardImg = document.createElement('img');
-    let card = shuffledDeck.pop();
-    if (card.value === 11) {
-        playerCount += card.value
-        playerAce += 1
-    } else {
-        playerCount += card.value
-    }
-//  append card image to div
-}
-
-function stand() {
-
-}
-
-function double() {
-
-}
-
-function playerTurn() {
-// add to wager in wagerField with button.addEventListener
-// deal cards into card divs
-// add cardValue to playerCount, playerAce, dealerCount, dealerAce
-// winner = -1 if dealerCount += dealerAce = 21
-// accept input from buttons Hit/Stand/Double
-// winner = 1 if playerCount += playerAce = 21
-// if playerCount += playerAce(true) > 21, playerCount - 10
-// winner = -1 if playerCount > 21
-// stand 
-}
-// make one function
-function dealerTurn() {
-// if dealerCount += dealerAce = 17, getWinner
-// else hit until dealerCount += dealerAce <= 17
-// if dealerCount += dealerAce(true) > 21, dealerCount - 10
-// hit until dealerCount <= 17
-// getWinner
-}
 
 
 function getWinner() {
