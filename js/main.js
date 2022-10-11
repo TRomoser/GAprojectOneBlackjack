@@ -2,6 +2,11 @@
 const suits = ['s', 'c', 'd', 'h'];
 const ranks = ['02', '03', '04', '05', '06', '07', '08', '09', '10', 'J', 'Q', 'K', 'A'];
 const originalDeck = buildOriginalDeck();
+const result = {
+    '-1': 'Dealer',
+    '0': 'Push',
+    '1': 'Player'
+}
 
 
 /*----- app's state (variables) -----*/
@@ -26,7 +31,7 @@ const dealerArea = document.getElementById('dealerArea');
 const playerArea = document.getElementById('playerArea');
 const message = document.getElementById('results');
 // const controlBtns = document.getElementsByClassName('controls');
-const betBtn = document.getElementByClass('wager');
+const betBtns = document.getElementsByClassName('wager');
 const hitBtn = document.getElementById('hit');
 const standBtn = document.getElementById('stand');
 const doubleBtn = document.getElementById('double');
@@ -44,9 +49,11 @@ const wagerEl = document.getElementById('wagerField');
 //     console.log(this.id.replace(/\d+/g, ''));
 //   });
 // }
-
+for (i of betBtns) {    
+    i.addEventListener('click', bet);
+}
+  
 playAgainBtn.addEventListener('click', init);
-betBtn.addEventListener('click', bet);
 hitBtn.addEventListener('click', hit);
 standBtn.addEventListener('click', stand);
 doubleBtn.addEventListener('click', double);
@@ -60,15 +67,19 @@ function init() {
     playerAce = 0;
     dealerAce = 0;
     wager = 0;
-    winner = 0;
+    winner = null;
     buildOriginalDeck();
     render();
 }
+
 function bet(evt) {
     const btn = evt.target;
-    const betAmt = btn.innerText.replace(/\D/g,'');
+    const betAmt = btn.id;
     wager += betAmt;
-    bankroll -= betAmt;
+    chipCount -= betAmt;
+    render();
+    console.log(wager);
+    console.log(chipCount);
     render();
 }
 
@@ -82,16 +93,22 @@ function hit() {
         playerCount += card.value
     }
 //  append card image to div
-render();
+    render();
 }
 
 function stand() {
-
+    if (dealerCount > playerCount) {
+        winner = -1;
+    } else if (dealerCount === playerCount) {
+        winner = 0;
+    } else {
+        winner = 1;
+    }
+    render();
 }
+// function double() {
 
-function double() {
-
-}
+// }
 
 function computeCount(hand) {
 
