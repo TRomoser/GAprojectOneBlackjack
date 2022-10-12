@@ -22,13 +22,6 @@ let shuffledDeck = [];
 let winner;
 
 /*----- cached element references -----*/
-// dealerCards div for dealer cards
-// playerCards div for player cards
-// p for results message
-// button 1 for hit/bet10
-// button 2 for stand/bet50
-// button 3 for double/bet100
-// button for playAgain
 const dealerArea = document.getElementById('dealerArea');
 const playerArea = document.getElementById('playerArea');
 const message = document.getElementById('results');
@@ -71,37 +64,35 @@ function init() {
     dealerCount = 0;
     playerAce = 0;
     dealerAce = 0;
+    playerHand = [];
+    dealerHand = [];
     wager = 0;
     winner = null;
     buildOriginalDeck();
     renderNewShuffledDeck();
     render();
+    dealBtn.style.visibility = 'visible';
+    hitBtn.disabled = false;
 }
-
-// put this in a function
-// playerCount = playerHand[0].value + playerHand[1].value; 
-// dealerCount = dealerHand[0].value + dealerHand[1].value;
 
 function bet(evt) {
     const btn = evt.target;
-    const betAmt = btn.id;
+    const betAmt = parseInt(btn.id);
     wager += betAmt;
     chipCount -= betAmt;
     render();
 }
 
 function deal() {
-    playerHand = [];
-    dealerHand = [];
+    dealBtn.style.visibility = 'hidden';
     playerHand.push(shuffledDeck.pop(), shuffledDeck.pop());
     dealerHand.push(shuffledDeck.pop(), shuffledDeck.pop());
     playerCount = getCount(playerHand, playerCount);
     dealerCount = getCount(dealerHand, dealerCount);
-    if (playerCount === 21) stand();
-    if (dealerCount === 21) stand();
+    if (playerCount === 21 || dealerCount === 21) stand();
     render();
-    console.log(playerCount)
-    console.log(dealerCount)
+    console.log(playerCount);
+    console.log(dealerCount);
 }
 
 function getCount(hand, count) {
@@ -114,15 +105,9 @@ function getCount(hand, count) {
         return total + num;
     });
     return count += newCount;
-    console.log(playerCount);
-    console.log(dealerCount);
 }
 
 function hit() {
-    if (playerCount >= 21) {
-        hitBtn.disabled = true;
-        return
-    } 
     let cardImg = document.createElement('img');
     playerHand.push(shuffledDeck.pop());
     let card = playerHand[playerHand.length - 1];
@@ -134,8 +119,13 @@ function hit() {
     }
     getCount(playerHand, playerCount);
     reduceAce(playerCount, playerAce);
-//  append card image to div
+    console.log(playerCount)
+    console.log(dealerCount)
     render();
+    if (playerCount >= 21) {
+        hitBtn.disabled = true;
+        return
+    } 
 }
 
 function stand() {
@@ -146,6 +136,7 @@ function stand() {
     } else {
         winner = 1;
     }
+    console.log(winner)
     render();
     dealerTurn();
 }
@@ -164,8 +155,9 @@ function dealerTurn() {
         reduceAce(dealerCount, dealerAce);
         console.log(playerCount)
         console.log(dealerCount);
-    }
+    };
     render();
+    
 }
 
 function reduceAce(count, aceCount) {
@@ -176,18 +168,29 @@ function reduceAce(count, aceCount) {
     return count;
 }
 
+function renderCards(deck, container) {
+    container.innerHTML = '';
+    let cardsHtml = '';
+    deck.forEach(function(card) {
+      cardsHtml += `<div class="card ${card.face}"></div>`;
+    });
+    container.innerHTML = cardsHtml;
+  }
+
 // function renderCards() {
 //     playerArea.innerHTML = playerHand.map(card => `<div class="card ${card.face}"></div>`).join('');
 //     dealerArea.innerHTML = dealerHand.map((card, idx) => `<div class="card ${idx === 1 && !outcome ? 'back' : card.face}"></div>`).join('');
 // }
 
-// function double() {
-
-// }
+function double() {
+    wager = wager * 2;
+    render();
+}
 
 function render() {
     renderMessage();
-    // renderCards();
+    renderCards(playerHand, playerArea);
+    renderCards(dealerHand, dealerArea)
 }
 
 function renderMessage() {

@@ -3,9 +3,15 @@
     box-sizing: border-box;
   }
   
-  div {
+  /* div {
     border: 1px solid black;
-  }
+  } */
+
+/* .playArea > div > div{
+    height: 3vh;
+    display: flex;
+    flex-direction: row;
+} */
 
   body {
     height: 100vh;
@@ -13,13 +19,49 @@
     align-content: center;
   }
   
-  .container {
-    display: grid;
-    grid-template-columns: 0.4fr 0.3fr 0.3fr;
-  /*   grid-template-rows: auto 25px auto 25px auto 25px auto 25px auto 25px auto; */
-    grid-column-gap: 10px;
-    grid-row-gap: 15px;
+  /* .container {  display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 0.6fr 1fr 0.6fr 0.6fr 0.6fr 1fr 0.6fr 0.6fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      ". . . . . ."
+      ". dealerArea dealerArea dealerArea deck ."
+      ". . . . . ."
+      ". message message message . ."
+      ". . . wagerField wagerField ."
+      ". playerArea playerArea playerArea . ."
+      ". bet10 bet50 bet100 dealBtn ."
+      ". hitBtn standBtn doubleBtn chipCount ."
+      ". . . . . .";
   }
+  
+  #dealerArea { grid-area: dealerArea; }
+  
+  .deck { grid-area: deck; }
+  
+  .message { grid-area: message; }
+  
+  .wagerField { grid-area: wagerField; }
+  
+  #playerArea { grid-area: playerArea; }
+  
+  #deal { grid-area: dealBtn; }
+  
+  .chipCount { grid-area: chipCount; }
+  
+  #10 { grid-area: bet10; }
+  
+  #50 { grid-area: bet50; }
+  
+  #100 { grid-area: bet100; }
+  
+  #hit { grid-area: hitBtn; }
+  
+  #stand { grid-area: standBtn; }
+  
+  #double { grid-area: doubleBtn; }
+   */
   
   .grid header {
     grid-column: 1 / 4;
