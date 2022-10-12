@@ -3,9 +3,9 @@
     box-sizing: border-box;
   }
   
-  /* div {
+  div {
     border: 1px solid black;
-  } */
+  }
 
 /* .playArea > div > div{
     height: 3vh;
@@ -19,10 +19,14 @@
     align-content: center;
   }
   
-  /* .container {  display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 0.6fr 1fr 0.6fr 0.6fr 0.6fr 1fr 0.6fr 0.6fr;
+  .container {  display: grid;
+    /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr; */
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    /* grid-template-rows: 0.6fr 1fr 0.6fr 0.6fr 0.6fr 1fr 0.6fr 0.6fr; */
+    grid-template-rows: repeat(auto-fit, minmax(240px, 1fr));
     gap: 0px 0px;
+    align-items: center;
+ 
     grid-auto-flow: row;
     grid-template-areas:
       ". . . . . ."
@@ -31,8 +35,8 @@
       ". message message message . ."
       ". . . wagerField wagerField ."
       ". playerArea playerArea playerArea . ."
-      ". bet10 bet50 bet100 dealBtn ."
-      ". hitBtn standBtn doubleBtn chipCount ."
+      ". wager wager wager dealBtn ."
+      ". controls controls controls chipCount ."
       ". . . . . .";
   }
   
@@ -50,18 +54,10 @@
   
   .chipCount { grid-area: chipCount; }
   
-  #10 { grid-area: bet10; }
+  .wager { grid-area: wager; }
   
-  #50 { grid-area: bet50; }
+  .controls { grid-area: controls; }
   
-  #100 { grid-area: bet100; }
-  
-  #hit { grid-area: hitBtn; }
-  
-  #stand { grid-area: standBtn; }
-  
-  #double { grid-area: doubleBtn; }
-   */
   
   .grid header {
     grid-column: 1 / 4;
