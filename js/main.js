@@ -95,14 +95,34 @@ function deal() {
     dealerHand = [];
     playerHand.push(shuffledDeck.pop(), shuffledDeck.pop());
     dealerHand.push(shuffledDeck.pop(), shuffledDeck.pop());
-    getCount();
+    playerCount = getCount(playerHand, playerCount);
+    dealerCount = getCount(dealerHand, dealerCount);
     if (playerCount === 21) stand();
     if (dealerCount === 21) stand();
     render();
+    console.log(playerCount)
+    console.log(dealerCount)
+}
+
+function getCount(hand, count) {
+    let handArray = [];
+    let newCount = 0;
+    for (i = 0; i < hand.length; i++) {
+        handArray.push(hand[i].value);
+    }
+    newCount = handArray.reduce(function(total, num) {
+        return total + num;
+    });
+    return count += newCount;
+    console.log(playerCount);
+    console.log(dealerCount);
 }
 
 function hit() {
-    if (playerCount >= 21) return; 
+    if (playerCount >= 21) {
+        hitBtn.disabled = true;
+        return
+    } 
     let cardImg = document.createElement('img');
     playerHand.push(shuffledDeck.pop());
     let card = playerHand[playerHand.length - 1];
@@ -112,7 +132,8 @@ function hit() {
     } else {
         playerCount += card.value;
     }
-    reduceAce();
+    getCount(playerHand, playerCount);
+    reduceAce(playerCount, playerAce);
 //  append card image to div
     render();
 }
@@ -139,56 +160,34 @@ function dealerTurn() {
         } else {
             dealerCount += card.value;
         }
-        reduceAce();
+        getCount(dealerHand, dealerCount)
+        reduceAce(dealerCount, dealerAce);
+        console.log(playerCount)
+        console.log(dealerCount);
     }
+    render();
 }
 
-function reduceAce() {
-    if ()
+function reduceAce(count, aceCount) {
+    while (count > 21 && aceCount > 0) {
+        sum -= 10;
+        aceCount -= 1;
+    }
+    return count;
 }
 
-function renderCards() {
+// function renderCards() {
+//     playerArea.innerHTML = playerHand.map(card => `<div class="card ${card.face}"></div>`).join('');
+//     dealerArea.innerHTML = dealerHand.map((card, idx) => `<div class="card ${idx === 1 && !outcome ? 'back' : card.face}"></div>`).join('');
+// }
 
-}
 // function double() {
 
 // }
 
-// function handleAce() {
-//     if
-// }
-
-function playerTurn() {
-    bet();
-
-    // add to wager in wagerField with button.addEventListener
-    // deal cards into card divs
-    // add cardValue to playerCount, playerAce, dealerCount, dealerAce
-    // winner = -1 if dealerCount += dealerAce = 21
-    // accept input from buttons Hit/Stand/Double
-    // winner = 1 if playerCount += playerAce = 21
-    // if playerCount += playerAce(true) > 21, playerCount - 10
-    // winner = -1 if playerCount > 21
-    // stand 
-    }
-    // make one function
-    function dealerTurn() {
-    // if dealerCount += dealerAce = 17, getWinner
-    // else hit until dealerCount += dealerAce <= 17
-    // if dealerCount += dealerAce(true) > 21, dealerCount - 10
-    // hit until dealerCount <= 17
-    // getWinner
-    }
-
 function render() {
     renderMessage();
-    renderCards();
-}
-
-function renderTable() {
-// render card divs
-// render wagerField
-    
+    // renderCards();
 }
 
 function renderMessage() {
@@ -198,11 +197,6 @@ function renderMessage() {
     wagerEl.innerHTML = `${wager}`;
 }
 
-// To remove words from control buttons id, use .replace(/\D/g,'')
-// To remove numbers from control buttons id, use .replace(/\d+/g, '')
-function playGame() {
-
-}
 
 function getNewShuffledDeck() {
     const tempDeck = [...originalDeck];
@@ -233,27 +227,65 @@ return deck;
 
 
 
-function getWinner() {
-// playerCount < dealerCount winner = -1
-// playerCount = dealerCount return 'push'
-// playerCount > dealerCount winner = 1
-}
 
-// //  cards look like {face: 'c04', value: 4}
-//         this.hand.forEach((card) => {
-//             this.handValue += card.value;
-//             // add to the ace count if we need to
-//             if (card.value === 11) this.aceCount++;
-//         });
-//         // blackjacks can only occur in the first two cards dealt
-//         if (this.handValue === 21 && this.hand.length === 2) {
-//             this.blackJack = true;
-//         }
-//         // since ace can be worth 11 or 1 we must reduce handvalue by 10 if it goes over 21
-//         // and an ace is in the hand
-//         while (this.aceCount && this.handValue > 21) {
-//             this.handValue -= 10;
-//             this.aceCount -= 1;
-//         }
-//         if (this.handValue > 21 ) this.bust = true;
-//         render();
+// function playerTurn() {
+//     bet();
+
+//     // add to wager in wagerField with button.addEventListener
+//     // deal cards into card divs
+//     // add cardValue to playerCount, playerAce, dealerCount, dealerAce
+//     // winner = -1 if dealerCount += dealerAce = 21
+//     // accept input from buttons Hit/Stand/Double
+//     // winner = 1 if playerCount += playerAce = 21
+//     // if playerCount += playerAce(true) > 21, playerCount - 10
+//     // winner = -1 if playerCount > 21
+//     // stand 
+//     }
+//     // make one function
+//     function dealerTurn() {
+//     // if dealerCount += dealerAce = 17, getWinner
+//     // else hit until dealerCount += dealerAce <= 17
+//     // if dealerCount += dealerAce(true) > 21, dealerCount - 10
+//     // hit until dealerCount <= 17
+//     // getWinner
+//     }
+
+
+// function renderTable() {
+// // render card divs
+// // render wagerField
+    
+// }
+
+
+// // To remove words from control buttons id, use .replace(/\D/g,'')
+// // To remove numbers from control buttons id, use .replace(/\d+/g, '')
+// function playGame() {
+
+// }
+
+
+// function getWinner() {
+// // playerCount < dealerCount winner = -1
+// // playerCount = dealerCount return 'push'
+// // playerCount > dealerCount winner = 1
+// }
+
+// // //  cards look like {face: 'c04', value: 4}
+// //         this.hand.forEach((card) => {
+// //             this.handValue += card.value;
+// //             // add to the ace count if we need to
+// //             if (card.value === 11) this.aceCount++;
+// //         });
+// //         // blackjacks can only occur in the first two cards dealt
+// //         if (this.handValue === 21 && this.hand.length === 2) {
+// //             this.blackJack = true;
+// //         }
+// //         // since ace can be worth 11 or 1 we must reduce handvalue by 10 if it goes over 21
+// //         // and an ace is in the hand
+// //         while (this.aceCount && this.handValue > 21) {
+// //             this.handValue -= 10;
+// //             this.aceCount -= 1;
+// //         }
+// //         if (this.handValue > 21 ) this.bust = true;
+// //         render();

@@ -4,36 +4,44 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
         <title>BlackJack</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="css/main.css">
         <script defer src="js/main.js"></script>
       </head>
       
     <body>
-        <h2>Dealer</h2>
-        <div id="dealerArea">Dealer cards
-            <img src="" alt="DealerCards">
-        </div>
+        <div class="container">
+                <div class="grid header">Let's play Blackjack!</div>
+            <div class="play area">
+                <div class="grid dealer">Dealer</div>
+                <div id="dealerArea">Dealer cards
+                    <img src="" alt="DealerCards">
+                </div>
 
-        <h2>Player</h2>
-        <div id="playerArea">Player cards
-            <img src="" alt="PlayerCards">
+                <div class="grid player">Player</div>
+                <div id="playerArea">Player cards
+                    <img src="" alt="PlayerCards">
+                </div>
+            </div>
+                <button class="controls" id="deal">Deal</button>
+                <p id="wagerField"></p>
+                <br>
+                <p id="results">Results</p>
+                <!-- <button class="controls" id="hit10">Hit/bet10</button>
+                <button class="controls" id="stand50">Stand/bet50</button>
+                <button class="controls" id="dbl100">Double/bet100</button> -->
+                <button class="wager" id="10">Bet 10</button>
+                <button class="wager" id="50">Bet 50</button>
+                <button class="wager" id="100">Bet 100</button>
+                <br>
+                <button id="hit">Hit</button>
+                <button id="stand">Stand</button>
+                <button id="double">Double</button>
+                <br>
+                <button id="playAgain">Play Again</button>
+                <p id="bankroll"></p>
         </div>
-        <button class="controls" id="deal">Deal</button>
-        <p id="wagerField"></p>
-        <br>
-        <p id="results">Results</p>
-        <!-- <button class="controls" id="hit10">Hit/bet10</button>
-        <button class="controls" id="stand50">Stand/bet50</button>
-        <button class="controls" id="dbl100">Double/bet100</button> -->
-        <button id="bet10">Bet 10</button>
-        <button id="bet50">Bet 50</button>
-        <button id="bet100">Bet 100</button>
-        <br>
-        <button id="hit">Hit</button>
-        <button id="stand">Stand</button>
-        <button id="double">Double</button>
-        <br>
-        <button id="playAgain">Play Again</button>
-        <p id="bankroll"></p>
     </body>
 </html>
