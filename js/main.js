@@ -60,7 +60,7 @@ playAgainBtn.addEventListener('click', init);
 hitBtn.addEventListener('click', hit);
 standBtn.addEventListener('click', stand);
 doubleBtn.addEventListener('click', double);
-dealBtn.addEventListener('click', deal)
+dealBtn.addEventListener('click', deal);
 
 
 /*----- functions -----*/
@@ -95,18 +95,24 @@ function deal() {
     dealerHand = [];
     playerHand.push(shuffledDeck.pop(), shuffledDeck.pop());
     dealerHand.push(shuffledDeck.pop(), shuffledDeck.pop());
+    getCount();
+    if (playerCount === 21) stand();
+    if (dealerCount === 21) stand();
+    render();
 }
 
 function hit() {
     if (playerCount >= 21) return; 
     let cardImg = document.createElement('img');
-    let card = shuffledDeck.pop();
+    playerHand.push(shuffledDeck.pop());
+    let card = playerHand[playerHand.length - 1];
     if (card.value === 11) {
-        playerCount += card.value
-        playerAce += 1
+        playerCount += card.value;
+        playerAce += 1;
     } else {
-        playerCount += card.value
+        playerCount += card.value;
     }
+    reduceAce();
 //  append card image to div
     render();
 }
@@ -120,10 +126,29 @@ function stand() {
         winner = 1;
     }
     render();
+    dealerTurn();
+}
+
+function dealerTurn() {
+    while (dealerCount < 17) {
+        dealerHand.push(shuffledDeck.pop());
+        let card = dealerHand[dealerHand.length - 1]
+        if (card.value === 11) {
+            dealerCount += card.value;
+            dealerAce += 1;
+        } else {
+            dealerCount += card.value;
+        }
+        reduceAce();
+    }
+}
+
+function reduceAce() {
+    if ()
 }
 
 function renderCards() {
-    
+
 }
 // function double() {
 
@@ -156,7 +181,6 @@ function playerTurn() {
     }
 
 function render() {
-    renderTable();
     renderMessage();
     renderCards();
 }
