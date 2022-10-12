@@ -2,7 +2,7 @@
 const suits = ['s', 'c', 'd', 'h'];
 const ranks = ['02', '03', '04', '05', '06', '07', '08', '09', '10', 'J', 'Q', 'K', 'A'];
 const originalDeck = buildOriginalDeck();
-const result = {
+const winState = {
     '-1': 'Dealer',
     '0': 'Push',
     '1': 'Player'
@@ -10,6 +10,8 @@ const result = {
 
 
 /*----- app's state (variables) -----*/
+let playerHand;
+let dealerHand;
 let playerCount;
 let dealerCount;
 let playerAce;
@@ -32,6 +34,7 @@ const playerArea = document.getElementById('playerArea');
 const message = document.getElementById('results');
 // const controlBtns = document.getElementsByClassName('controls');
 const betBtns = document.getElementsByClassName('wager');
+const dealBtn = document.getElementById('deal');
 const hitBtn = document.getElementById('hit');
 const standBtn = document.getElementById('stand');
 const doubleBtn = document.getElementById('double');
@@ -57,6 +60,8 @@ playAgainBtn.addEventListener('click', init);
 hitBtn.addEventListener('click', hit);
 standBtn.addEventListener('click', stand);
 doubleBtn.addEventListener('click', double);
+dealBtn.addEventListener('click', deal)
+
 
 /*----- functions -----*/
 init();
@@ -69,8 +74,13 @@ function init() {
     wager = 0;
     winner = null;
     buildOriginalDeck();
+    renderNewShuffledDeck();
     render();
 }
+
+// put this in a function
+// playerCount = playerHand[0].value + playerHand[1].value; 
+// dealerCount = dealerHand[0].value + dealerHand[1].value;
 
 function bet(evt) {
     const btn = evt.target;
@@ -78,12 +88,17 @@ function bet(evt) {
     wager += betAmt;
     chipCount -= betAmt;
     render();
-    console.log(wager);
-    console.log(chipCount);
-    render();
+}
+
+function deal() {
+    playerHand = [];
+    dealerHand = [];
+    playerHand.push(shuffledDeck.pop(), shuffledDeck.pop());
+    dealerHand.push(shuffledDeck.pop(), shuffledDeck.pop());
 }
 
 function hit() {
+    if (playerCount >= 21) return; 
     let cardImg = document.createElement('img');
     let card = shuffledDeck.pop();
     if (card.value === 11) {
@@ -106,13 +121,17 @@ function stand() {
     }
     render();
 }
+
+function renderCards() {
+    
+}
 // function double() {
 
 // }
 
-function computeCount(hand) {
-
-}
+// function handleAce() {
+//     if
+// }
 
 function playerTurn() {
     bet();
@@ -139,7 +158,7 @@ function playerTurn() {
 function render() {
     renderTable();
     renderMessage();
-    renderNewShuffledDeck();
+    renderCards();
 }
 
 function renderTable() {
@@ -162,33 +181,25 @@ function playGame() {
 }
 
 function getNewShuffledDeck() {
-    // Create a copy of the originalDeck (leave originalDeck untouched!)
     const tempDeck = [...originalDeck];
     const newShuffledDeck = [];
     while (tempDeck.length) {
-      // Get a random index for a card still in the tempDeck
       const rndIdx = Math.floor(Math.random() * tempDeck.length);
-      // Note the [0] after splice - this is because splice always returns an array 
-      // and we just want the card object in that array
       newShuffledDeck.push(tempDeck.splice(rndIdx, 1)[0]);
     }
     return newShuffledDeck;
   }
 
 function renderNewShuffledDeck() {
-// Create a copy of the originalDeck (leave originalDeck untouched!)
     shuffledDeck = getNewShuffledDeck();
     }
 
 function buildOriginalDeck() {
 const deck = [];
-// Use nested forEach to generate card objects
 suits.forEach(function(suit) {
     ranks.forEach(function(rank) {
     deck.push({
-        // The 'face' property maps to the library's CSS classes for cards
         face: `${suit}${rank}`,
-        // Setting the 'value' property for game of blackjack, not war
         value: Number(rank) || (rank === 'A' ? 11 : 10)
     });
     });
