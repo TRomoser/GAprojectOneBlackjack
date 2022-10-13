@@ -24,8 +24,9 @@ let winner;
 /*----- cached element references -----*/
 const dealerArea = document.getElementById('dealerArea');
 const playerArea = document.getElementById('playerArea');
-const message = document.getElementById('results');
-// const controlBtns = document.getElementsByClassName('controls');
+const message = document.getElementById('message');
+const dealScore = document.getElementById('dealScore');
+const playScore = document.getElementById('playScore');
 const betBtns = document.getElementsByClassName('wager');
 const dealBtn = document.getElementById('deal');
 const hitBtn = document.getElementById('hit');
@@ -71,8 +72,14 @@ function init() {
     buildOriginalDeck();
     renderNewShuffledDeck();
     render();
+    dealScore.innerText = '';
+    playScore.innerText = '';
+    wagerEl.innerHTML = '';
     dealBtn.style.visibility = 'visible';
     hitBtn.disabled = false;
+    for (i of betBtns) {
+        i.style.visibility = 'visible';
+    }
 }
 
 function bet(evt) {
@@ -80,11 +87,15 @@ function bet(evt) {
     const betAmt = parseInt(btn.id);
     wager += betAmt;
     chipCount -= betAmt;
+    wagerEl.innerHTML = `${wager}`;
     render();
 }
 
 function deal() {
     dealBtn.style.visibility = 'hidden';
+    for (i of betBtns) {
+        i.style.visibility = 'hidden';
+    }
     playerHand.push(shuffledDeck.pop(), shuffledDeck.pop());
     dealerHand.push(shuffledDeck.pop(), shuffledDeck.pop());
     playerCount = getCount(playerHand, playerCount);
@@ -124,11 +135,14 @@ function hit() {
     render();
     if (playerCount >= 21) {
         hitBtn.disabled = true;
+        winner = -1;
+        getWinner();
         return
     } 
 }
 
 function stand() {
+    if (dealerCount === 0 || playerCount === 0) return;
     if (dealerCount > playerCount) {
         winner = -1;
     } else if (dealerCount === playerCount) {
@@ -142,6 +156,7 @@ function stand() {
 }
 
 function dealerTurn() {
+    if (dealerHand === [] || playerHand === []) return;
     while (dealerCount < 17) {
         dealerHand.push(shuffledDeck.pop());
         let card = dealerHand[dealerHand.length - 1]
@@ -162,7 +177,7 @@ function dealerTurn() {
 
 function reduceAce(count, aceCount) {
     while (count > 21 && aceCount > 0) {
-        sum -= 10;
+        count -= 10;
         aceCount -= 1;
     }
     return count;
@@ -172,15 +187,10 @@ function renderCards(deck, container) {
     container.innerHTML = '';
     let cardsHtml = '';
     deck.forEach(function(card) {
-      cardsHtml += `<div class="card ${card.face}"></div>`;
+    cardsHtml += `<div class="card ${card.face}"></div>`;
     });
     container.innerHTML = cardsHtml;
   }
-
-// function renderCards() {
-//     playerArea.innerHTML = playerHand.map(card => `<div class="card ${card.face}"></div>`).join('');
-//     dealerArea.innerHTML = dealerHand.map((card, idx) => `<div class="card ${idx === 1 && !outcome ? 'back' : card.face}"></div>`).join('');
-// }
 
 function double() {
     wager = wager * 2;
@@ -190,16 +200,25 @@ function double() {
 function render() {
     renderMessage();
     renderCards(playerHand, playerArea);
-    renderCards(dealerHand, dealerArea)
+    renderCards(dealerHand, dealerArea);
 }
 
 function renderMessage() {
 // render win/lose/bust message
 // render turn message
     bankrollEl.innerHTML = `${chipCount}`;
-    wagerEl.innerHTML = `${wager}`;
+    playScore.innerText = `${playerCount}`;
+    if (winner === null) {
+        message.innerText = '';
+        return;
+    } else if (winner === 0) {
+        message.innerText = `It's a push, your bet's returned`;
+    } else if (winner === -1) {
+        message.innerText = 'Dealer wins! Try again';
+    } else {
+        message.innerText = 'Player wins! Good job';
+    }
 }
-
 
 function getNewShuffledDeck() {
     const tempDeck = [...originalDeck];

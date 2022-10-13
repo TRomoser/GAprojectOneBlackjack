@@ -7,40 +7,42 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
-        <link href="css/cardstarter.css" rel="stylesheet" />
+        <link rel="stylesheet" href="css/cardstarter.css">
         <link rel="stylesheet" href="css/main.css">
         <script defer src="js/main.js"></script>
       </head>
       
     <body>
         <div class="container">
-                <div class="grid header">Let's play Blackjack!</div>
+            <div class="grid header">Let's play Blackjack!</div>
             <div class="playArea">
-                <div class="grid dealer">Dealer</div>
-                <div id="dealerArea">Dealer cards
-                </div>
-
-                <div class="grid player">Player</div>
-                <div id="playerArea">Player cards
-                </div>
-                </div>
-                <button class="controls" id="deal">Deal</button>
+                <div class="grid dealer">Dealer <span id="dealScore"></span></div>
+                <div class="cardArea" id="dealerArea">Dealer cards</div>
+                <div id="message">Message</div>
                 <div id="wagerField"></div>
-                <br>
-                <div id="results">Results</div>
-                <!-- <button class="controls" id="hit10">Hit/bet10</button>
-                <button class="controls" id="stand50">Stand/bet50</button>
-                <button class="controls" id="dbl100">Double/bet100</button> -->
-                <button class="wager" id="10">Bet 10</button>
-                <button class="wager" id="50">Bet 50</button>
-                <button class="wager" id="100">Bet 100</button>
-                <br>
-                <button id="hit">Hit</button>
-                <button id="stand">Stand</button>
-                <button id="double">Double</button>
-                <br>
-                <button id="playAgain">Play Again</button>
-                <div id="bankroll"></div>
+                <div class="grid player">Player<span id="playScore"></span></div>
+                <div class="cardArea" id="playerArea">Player cards</div>
+            </div>
+            <div class="top">
+                <div>
+                    <div class="controls">
+                        <button id="hit">Hit</button>
+                        <button id="stand">Stand</button>
+                        <button id="double">Double</button>
+                    </div>  
+                
+                    <div class="bet">
+                        <button class="wager" id="10">Bet 10</button>
+                        <button class="wager" id="50">Bet 50</button>
+                        <button class="wager" id="100">Bet 100</button>
+                    </div>
+                </div>
+                <div class="userControls">
+                    <button class="controls" id="deal">Deal</button>
+                    <button id="playAgain">Play Again</button>
+                    <div id="bankroll"></div>
+                    </div>
+            </div>
         </div>
     </body>
 </html>
