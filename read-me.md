@@ -1,23 +1,24 @@
-###TRomoser's Blackjack Project
+### TRomoser's Blackjack Project
 
+This is a virtual form of Blackjack, the most widely played casino game in the world. Using a deck of 52 cards, this game allows you to wager, hit, stand, and double. The dealer will deal until they hit 17 and the winner is whomever has the highest score.
 
+## Screenshots
 
-##Screenshots
+![blackjack1](https://i.imgur.com/OfrTLUG.png)
+![blackjack2](https://i.imgur.com/rz82Quf.png)
 
-
-
-##Technologies Used
+## Technologies Used
 
 -JavaScript
 -HTML
 -CSS
 -CardStarter CSS Library
 
-##Getting Started
+## Getting Started
 
-Click to play Blackjack!
+Click to play [Blackjack](https://tromoser.github.io/GAprojectOneBlackjack/)!
 
-##Next Steps
+## Next Steps
 
 [] Add casino chips that move to the center after deal is pressed
 [] Implement splitting hands
