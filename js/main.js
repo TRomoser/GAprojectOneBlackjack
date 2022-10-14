@@ -8,7 +8,6 @@ const winState = {
     '1': 'Player'
 };
 
-
 /*----- app's state (variables) -----*/
 let playerHand;
 let dealerHand;
@@ -20,7 +19,6 @@ let wager;
 let chipCount = 1000;
 let shuffledDeck = [];
 let winner;
-
 
 /*----- cached element references -----*/
 const dealerArea = document.getElementById('dealerArea');
@@ -36,7 +34,7 @@ const doubleBtn = document.getElementById('double');
 const playAgainBtn = document.getElementById('playAgain');
 const bankrollEl = document.getElementById('bankroll');
 const wagerEl = document.getElementById('wagerField');
-
+const dealHidden = document.getElementById('dealerArea:nth-child(2)')
 
 /*----- event listeners -----*/
 for (i of betBtns) {    
@@ -48,7 +46,6 @@ hitBtn.addEventListener('click', hit);
 standBtn.addEventListener('click', stand);
 doubleBtn.addEventListener('click', double);
 dealBtn.addEventListener('click', deal);
-
 
 /*----- functions -----*/
 init();
@@ -77,6 +74,7 @@ function init() {
 }
 
 function bet(evt) {
+    if (chipCount <= 0) return;
     const btn = evt.target;
     const betAmt = parseInt(btn.id);
     wager += betAmt;
@@ -95,8 +93,7 @@ function deal() {
     dealerCount = getCount(dealerHand, dealerCount);
     if (playerCount === 21 || dealerCount === 21) stand();
     render();
-    console.log(playerCount);
-    console.log(dealerCount);
+    renderCards(dealerHand, dealerArea);
 }
 
 function getCount(hand, count) {
@@ -112,6 +109,7 @@ function getCount(hand, count) {
 }
 
 function hit() {
+    if (playerHand.length === 0) return;
     let cardImg = document.createElement('img');
     playerHand.push(shuffledDeck.pop());
     let card = playerHand[playerHand.length - 1];
@@ -180,9 +178,10 @@ function renderCards(deck, container) {
     cardsHtml += `<div class="card ${card.face}"></div>`;
     });
     container.innerHTML = cardsHtml;
-  }
+}
 
 function double() {
+    if (chipCount <= 0 || wager === 0) return;
     wager *= 2;
     chipCount -= wager;
     doubleBtn.disabled = true;
@@ -219,7 +218,7 @@ function getNewShuffledDeck() {
       newShuffledDeck.push(tempDeck.splice(rndIdx, 1)[0]);
     };
     return newShuffledDeck;
-  }
+    }
 
 function renderNewShuffledDeck() {
     shuffledDeck = getNewShuffledDeck();
