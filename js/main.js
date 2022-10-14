@@ -34,14 +34,14 @@ const doubleBtn = document.getElementById('double');
 const playAgainBtn = document.getElementById('playAgain');
 const bankrollEl = document.getElementById('bankroll');
 const wagerEl = document.getElementById('wagerField');
-const dealHidden = document.getElementById('dealerArea:nth-child(2)')
+const dealHidden = document.querySelector('#dealerArea > div:nth-child(2)')
 
 /*----- event listeners -----*/
 for (i of betBtns) {    
     i.addEventListener('click', bet);
 }
 
-playAgainBtn.addEventListener('click', init);
+playAgainBtn.addEventListener('click', playAgain);
 hitBtn.addEventListener('click', hit);
 standBtn.addEventListener('click', stand);
 doubleBtn.addEventListener('click', double);
@@ -62,8 +62,6 @@ function init() {
     buildOriginalDeck();
     renderNewShuffledDeck();
     render();
-    dealScore.innerText = '';
-    playScore.innerText = '';
     wagerEl.innerHTML = '';
     dealBtn.style.visibility = 'visible';
     hitBtn.disabled = false;
@@ -72,6 +70,13 @@ function init() {
         i.style.visibility = 'visible';
     }
 }
+
+function playAgain() {
+    if (winner === '1') chipCount += wager;
+    wagerEl.innerText = '';
+    render();
+    init();
+} 
 
 function bet(evt) {
     if (chipCount <= 0) return;
@@ -83,6 +88,7 @@ function bet(evt) {
 }
 
 function deal() {
+    if (wager === 0) return;
     dealBtn.style.visibility = 'hidden';
     for (i of betBtns) {
         i.style.visibility = 'hidden';
@@ -93,7 +99,7 @@ function deal() {
     dealerCount = getCount(dealerHand, dealerCount);
     if (playerCount === 21 || dealerCount === 21) stand();
     render();
-    renderCards(dealerHand, dealerArea);
+    document.querySelector('#dealerArea > div:nth-child(2)').className = 'card back';
 }
 
 function getCount(hand, count) {
@@ -121,36 +127,30 @@ function hit() {
     }
     getCount(playerHand, playerCount);
     reduceAce(playerCount, playerAce);
-    console.log(playerCount)
-    console.log(dealerCount)
     render();
     if (playerCount >= 21) {
         hitBtn.disabled = true;
         winner = -1;
-        getWinner();
+        render();
         return
     } 
+    dealerTurn();
 }
 
 function stand() {
     if (dealerCount === 0 || playerCount === 0) return;
-    if (dealerCount > playerCount) {
-        winner = -1;
-    } else if (dealerCount === playerCount) {
-        winner = 0;
-    } else {
-        winner = 1;
-    }
-    console.log(winner)
-    render();
+    if (dealerHand.length === 2) document.querySelector('#dealerArea > div:nth-child(2)').className = 'card ${card.face}';
     dealerTurn();
+    render();
 }
 
 function dealerTurn() {
     if (dealerHand === [] || playerHand === []) return;
+    if (winner !== null) return;
+    document.querySelector('#dealerArea > div:nth-child(2)').className = 'card ${card.face}';
     while (dealerCount < 17) {
         dealerHand.push(shuffledDeck.pop());
-        let card = dealerHand[dealerHand.length - 1]
+        let card = dealerHand[dealerHand.length - 1];
         if (card.value === 11) {
             dealerCount += card.value;
             dealerAce += 1;
@@ -160,7 +160,18 @@ function dealerTurn() {
         getCount(dealerHand, dealerCount);
         reduceAce(dealerCount, dealerAce);
     };
+    getWinner()
     render();
+}
+
+function getWinner () {
+    if (dealerCount > playerCount && !(dealerCount > 21)) {
+        winner = -1;
+    } else if (dealerCount === playerCount) {
+        winner = 0;
+    } else {
+        winner = 1;
+    } 
 }
 
 function reduceAce(count, aceCount) {
@@ -181,10 +192,11 @@ function renderCards(deck, container) {
 }
 
 function double() {
-    if (chipCount <= 0 || wager === 0) return;
+    if (chipCount <= 0 || wager === 0 || playerCount === 0) return;
     wager *= 2;
     chipCount -= wager;
     doubleBtn.disabled = true;
+    hit();
     render();
 }
 
@@ -197,7 +209,6 @@ function render() {
 function renderMessage() {
     wagerEl.innerHTML = `${wager}`;
     bankrollEl.innerHTML = `${chipCount}`;
-    playScore.innerText = `${playerCount}`;
     if (winner === null) {
         message.innerText = '';
         return;

@@ -2,11 +2,9 @@
     font-family: 'Abril Fatface', cursive;
     box-sizing: border-box;
     color: white;
-    background-color: black;
-}
-  
-div {
-    border: 1px solid white;
+    background-image: url(https://img.freepik.com/free-photo/black-felt-texture_125540-1548.jpg?w=1800&t=st=1665722800~exp=1665723400~hmac=b919fdeb784880e340e3c2797e266f9b54a432d571f8accb72829bf3b8253867);
+    background-repeat: no-repeat;
+    background-size: auto;
 }
 
 body {
@@ -33,8 +31,15 @@ body {
     height: auto;
 }
 
+.headerTag, .dealerTag, .playerTag, #bankroll, span {
+    font-size: 1.5em;
+    text-align: center;
+    margin: 10px;
+}
+
 .cardArea {
     display: flex;
+    justify-content: center;
     height: 100%;
     height: 210px;
 }
@@ -52,7 +57,20 @@ body {
     justify-content: space-evenly;
     height: 10em;
 }
-/* 
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+}
+
+.userControls {
+    display: flex;
+    flex-direction: column;
+}
+
+
 button {
-    height: 10em;
-} */
+    height: 5em;
+    text-align: center;
+    border-radius: 10px;
+}
