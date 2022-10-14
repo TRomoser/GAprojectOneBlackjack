@@ -3,7 +3,7 @@
     box-sizing: border-box;
     color: white;
     background-color: black;
-  }
+}
   
 div {
     border: 1px solid white;
@@ -31,24 +31,10 @@ body {
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr; 
-    grid-template-rows: 0.6fr 1fr 0.6fr 0.6fr 0.6fr 1fr 0.6fr 0.6fr; 
-    gap: 0px 0px; 
-    grid-template-areas: 
-      ". . . . . ."
-      ". dealerArea dealerArea dealerArea deck ."
-      ". . . . . ."
-      ". message message message . ."
-      ". . . wagerField wagerField ."
-      ". playerArea playerArea playerArea . ."
-      ". wager wager wager dealBtn ."
-      ". controls controls controls chipCount ."
-      ". . . . . .";  */
 }
 
 .cardArea {
     display: flex;
-    /* height: 300px; */
     height: 300px;
 }
 
@@ -71,54 +57,3 @@ body {
     flex-direction: row;
     justify-content: space-between;
 }
-
-/* #dealerArea { 
-    grid-area: dealerArea;
-}
-#deck { 
-    grid-area: deck; 
-}
-#message { 
-    grid-area: message; 
-}
-#wagerField { 
-    grid-area: wagerField; 
-}
-#playerArea { 
-    grid-area: playerArea; 
-}
-#dealBtn { 
-    grid-area: dealBtn; 
-}
-#chipCount { 
-    grid-area: chipCount; 
-}
-#wager { 
-    grid-area: wager; 
-}
-#controls { 
-    grid-area: controls; 
-}
- */
-
-  /* .container {
-    display: grid; 
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 10px;
-}
-
-.top {
-    grid-column: span 2 / auto;
-}
-
-.playArea > div > div{
-    height: 3vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.cardArea {
-    display: flex;
-} */

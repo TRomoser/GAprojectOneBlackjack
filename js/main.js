@@ -6,7 +6,7 @@ const winState = {
     '-1': 'Dealer',
     '0': 'Push',
     '1': 'Player'
-}
+};
 
 
 /*----- app's state (variables) -----*/
@@ -20,6 +20,7 @@ let wager;
 let chipCount = 1000;
 let shuffledDeck = [];
 let winner;
+
 
 /*----- cached element references -----*/
 const dealerArea = document.getElementById('dealerArea');
@@ -36,20 +37,12 @@ const playAgainBtn = document.getElementById('playAgain');
 const bankrollEl = document.getElementById('bankroll');
 const wagerEl = document.getElementById('wagerField');
 
-/*----- event listeners -----*/
-// for control buttons
-// for playAgain button
 
-// for (i of controlBtns) {
-//   i.addEventListener('click', function() { //change to playGame
-//     console.log(this.id.replace(/\D/g,''));
-//     console.log(this.id.replace(/\d+/g, ''));
-//   });
-// }
+/*----- event listeners -----*/
 for (i of betBtns) {    
     i.addEventListener('click', bet);
 }
-  
+
 playAgainBtn.addEventListener('click', init);
 hitBtn.addEventListener('click', hit);
 standBtn.addEventListener('click', stand);
@@ -77,6 +70,7 @@ function init() {
     wagerEl.innerHTML = '';
     dealBtn.style.visibility = 'visible';
     hitBtn.disabled = false;
+    doubleBtn.disabled = false;
     for (i of betBtns) {
         i.style.visibility = 'visible';
     }
@@ -87,7 +81,6 @@ function bet(evt) {
     const betAmt = parseInt(btn.id);
     wager += betAmt;
     chipCount -= betAmt;
-    wagerEl.innerHTML = `${wager}`;
     render();
 }
 
@@ -166,13 +159,10 @@ function dealerTurn() {
         } else {
             dealerCount += card.value;
         }
-        getCount(dealerHand, dealerCount)
+        getCount(dealerHand, dealerCount);
         reduceAce(dealerCount, dealerAce);
-        console.log(playerCount)
-        console.log(dealerCount);
     };
     render();
-    
 }
 
 function reduceAce(count, aceCount) {
@@ -193,7 +183,9 @@ function renderCards(deck, container) {
   }
 
 function double() {
-    wager = wager * 2;
+    wager *= 2;
+    chipCount -= wager;
+    doubleBtn.disabled = true;
     render();
 }
 
@@ -204,8 +196,7 @@ function render() {
 }
 
 function renderMessage() {
-// render win/lose/bust message
-// render turn message
+    wagerEl.innerHTML = `${wager}`;
     bankrollEl.innerHTML = `${chipCount}`;
     playScore.innerText = `${playerCount}`;
     if (winner === null) {
@@ -217,7 +208,7 @@ function renderMessage() {
         message.innerText = 'Dealer wins! Try again';
     } else {
         message.innerText = 'Player wins! Good job';
-    }
+    };
 }
 
 function getNewShuffledDeck() {
@@ -226,13 +217,13 @@ function getNewShuffledDeck() {
     while (tempDeck.length) {
       const rndIdx = Math.floor(Math.random() * tempDeck.length);
       newShuffledDeck.push(tempDeck.splice(rndIdx, 1)[0]);
-    }
+    };
     return newShuffledDeck;
   }
 
 function renderNewShuffledDeck() {
     shuffledDeck = getNewShuffledDeck();
-    }
+}
 
 function buildOriginalDeck() {
 const deck = [];
@@ -246,68 +237,3 @@ suits.forEach(function(suit) {
 });
 return deck;
 }
-
-
-
-
-// function playerTurn() {
-//     bet();
-
-//     // add to wager in wagerField with button.addEventListener
-//     // deal cards into card divs
-//     // add cardValue to playerCount, playerAce, dealerCount, dealerAce
-//     // winner = -1 if dealerCount += dealerAce = 21
-//     // accept input from buttons Hit/Stand/Double
-//     // winner = 1 if playerCount += playerAce = 21
-//     // if playerCount += playerAce(true) > 21, playerCount - 10
-//     // winner = -1 if playerCount > 21
-//     // stand 
-//     }
-//     // make one function
-//     function dealerTurn() {
-//     // if dealerCount += dealerAce = 17, getWinner
-//     // else hit until dealerCount += dealerAce <= 17
-//     // if dealerCount += dealerAce(true) > 21, dealerCount - 10
-//     // hit until dealerCount <= 17
-//     // getWinner
-//     }
-
-
-// function renderTable() {
-// // render card divs
-// // render wagerField
-    
-// }
-
-
-// // To remove words from control buttons id, use .replace(/\D/g,'')
-// // To remove numbers from control buttons id, use .replace(/\d+/g, '')
-// function playGame() {
-
-// }
-
-
-// function getWinner() {
-// // playerCount < dealerCount winner = -1
-// // playerCount = dealerCount return 'push'
-// // playerCount > dealerCount winner = 1
-// }
-
-// // //  cards look like {face: 'c04', value: 4}
-// //         this.hand.forEach((card) => {
-// //             this.handValue += card.value;
-// //             // add to the ace count if we need to
-// //             if (card.value === 11) this.aceCount++;
-// //         });
-// //         // blackjacks can only occur in the first two cards dealt
-// //         if (this.handValue === 21 && this.hand.length === 2) {
-// //             this.blackJack = true;
-// //         }
-// //         // since ace can be worth 11 or 1 we must reduce handvalue by 10 if it goes over 21
-// //         // and an ace is in the hand
-// //         while (this.aceCount && this.handValue > 21) {
-// //             this.handValue -= 10;
-// //             this.aceCount -= 1;
-// //         }
-// //         if (this.handValue > 21 ) this.bust = true;
-// //         render();
